@@ -1,18 +1,16 @@
-import React, {useState, useCallback} from 'react'
+import React, { useState, useCallback } from 'react'
 
-const Input = ({type, label, val}) => {
+const Input = ({ type, label, val }) => {
 
     const [value, setValue] = useState();
-    console.log(value);
-
-    const handleValueChange = useCallback(()=>{
+    const handleValueChange = useCallback(() => {
         setValue()
     })
 
-    return(
+    return (
         <form>
             <label htmlFor={label}>{label}</label>
-            <input type={type} name={label} value={handleValueChange}/>
+            <input type={type} name={label} value={handleValueChange} />
         </form>
     )
 }
