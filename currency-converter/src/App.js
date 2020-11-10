@@ -7,32 +7,35 @@ import Loader from 'react-loader-spinner';
 const currencyConvUrl = 'https://api.exchangeratesapi.io/latest';
 
 function App() {
-  
+
   const [currencyList, setCurrencyList] = useState([]);
   const [fromCurrency, setFromCurrency] = usePersistentState("fromCurrency", "CAD");
   const [toCurrency, setToCurrency] = usePersistentState("toCurrency", "USD");
   const [exchangeRate, setExchangeRate] = useState(null);
-  const [fromAmount, setFromAmount] = useState(0);
-  const [toAmount, setToAmount] = useState(0);
+  const [fromAmount, setFromAmount] = usePersistentState("fromAmount", "1");
+  const [toAmount, setToAmount] = useState(null);
   const [amountInFrom, setAmountInFrom] = useState(true);
-
-  useEffect(()=> console.log('I have rerendered'),)
-
-  useEffect(()=>{
-    if (amountInFrom) {
-      setToAmount(fromAmount*exchangeRate);
-    } else {
-      setFromAmount(toAmount/exchangeRate);
-    }
-  }, [fromAmount, toAmount, exchangeRate, amountInFrom])
-  
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(currencyConvUrl)
-      .then(res => res.json())
-      .then(data => {
-        setCurrencyList([data.base, ...Object.keys(data.rates)]);
-      })
+    if (amountInFrom) {
+      setToAmount(fromAmount * exchangeRate);
+    } else {
+      setFromAmount(toAmount / exchangeRate);
+    }
+  }, [fromAmount, toAmount, exchangeRate, amountInFrom])
+
+
+  useEffect(() => {
+
+    setTimeout(() =>
+      fetch(currencyConvUrl)
+        .then(res => res.json())
+        .then(data => {
+          setCurrencyList([data.base, ...Object.keys(data.rates)]);
+          setIsLoading(false);
+        }), 1000)
+
   }, [])
 
   useEffect(() => {
@@ -41,8 +44,8 @@ function App() {
       fetch(`${currencyConvUrl}?base=${fromCurrency}&symbols=${toCurrency}`)
         .then(res => res.json())
         .then(data => {
-          console.log(data.rates);
-          setExchangeRate(data.rates[toCurrency])})
+          setExchangeRate(data.rates[toCurrency])
+        })
     }
 
   }, [fromCurrency, toCurrency])
@@ -61,17 +64,17 @@ function App() {
     setAmountInFrom(false);
   }
 
-  return (exchangeRate && currencyList.length >0) ? (
+  return (!isLoading) ? (
     <>
-     
-      {exchangeRate && currencyList.length > 0 && <>
+
+
       <CurrencyRow currencyList={currencyList} defaultCurrency={fromCurrency} onCurrencyChange={handleFromCurrencyChange} onChangeAmount={handleFromAmount} amount={fromAmount}></CurrencyRow>
-      <div style={{ textAlign: 'center' , marginRight: '3em'}}>=</div>
-      <CurrencyRow currencyList={currencyList} defaultCurrency={toCurrency} onCurrencyChange={handleToCurrencyChange} onChangeAmount={handleToAmount} amount={toAmount}></CurrencyRow> </> }
+      <div style={{ textAlign: 'center', marginRight: '3em' }}>=</div>
+      <CurrencyRow currencyList={currencyList} defaultCurrency={toCurrency} onCurrencyChange={handleToCurrencyChange} onChangeAmount={handleToAmount} amount={toAmount}></CurrencyRow>
 
     </>
 
-  ) : (<Loader/>);
+  ) : (<Loader style={{ textAlign: 'center' }} />);
 }
 
 export default App;
