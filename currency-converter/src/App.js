@@ -69,7 +69,7 @@ function App() {
 
 
       <CurrencyRow currencyList={currencyList} defaultCurrency={fromCurrency} onCurrencyChange={handleFromCurrencyChange} onChangeAmount={handleFromAmount} amount={fromAmount}></CurrencyRow>
-      <div style={{ textAlign: 'center', marginRight: '3em' }}>=</div>
+      <div style={{ textAlign: 'center', fontSize: '5em', color: "white" }}>=</div>
       <CurrencyRow currencyList={currencyList} defaultCurrency={toCurrency} onCurrencyChange={handleToCurrencyChange} onChangeAmount={handleToAmount} amount={toAmount}></CurrencyRow>
 
     </>
