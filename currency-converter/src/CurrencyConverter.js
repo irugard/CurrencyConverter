@@ -1,4 +1,4 @@
-import './App.css';
+import './CurrencyConverter.css';
 import CurrencyRow from './components/CurrencyRow';
 import React, { useState, useEffect } from 'react';
 import usePersistentState from './usePersistentState';
@@ -6,7 +6,7 @@ import Loader from 'react-loader-spinner';
 
 const currencyConvUrl = 'https://api.exchangeratesapi.io/latest';
 
-function App() {
+function CurrencyConverter() {
 
   const [currencyList, setCurrencyList] = useState([]);
   const [fromCurrency, setFromCurrency] = usePersistentState("fromCurrency", "CAD");
@@ -77,4 +77,4 @@ function App() {
   ) : (<Loader style={{ textAlign: 'center' }} />);
 }
 
-export default App;
+export default CurrencyConverter;
