@@ -1,7 +1,7 @@
 {
-  "name": "currency-converter",
-  "version": "0.1.1",
-  "private": false,
+  "name": "@irugard/currency-converter",
+  "version": "1.1.2",
+
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -20,6 +20,12 @@
       "react-app"
     ]
   },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/irugard/CurrencyConverter"    
+  },
+
   "browserslist": {
     "production": [
       ">0.2%",
